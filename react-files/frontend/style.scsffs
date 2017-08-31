@@ -1,0 +1,185 @@
+body{
+    font-family: Arial;
+    font-size: 15px;
+}
+h2{
+    font-family: 'header-font';
+    font-size: 125%;
+}
+@font-face {
+    font-family: 'header-font';
+    src: url('/public/10295.ttf') format("truetype");
+}
+a{
+    color: greenyellow;
+}
+main{
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.navbar{
+    background-color: black;
+    background-image: none;
+    border: none;
+    margin: 0;
+    box-shadow: none;
+    font-family: 'header-font';
+    font-size: 140%;
+}
+.page-header{
+    margin:0;
+    border:0;
+}
+.application h1{
+    text-align: center;
+    font-size: 30px;
+    color: deeppink;
+}
+footer{
+    background-color: black;
+    height: 330px;
+    color: white;
+    position: relative;
+}
+.footer-right{
+    background: url("/public/images/footer-right.jpg") no-repeat;
+    -webkit-background-size:  contain;
+    background-size:  contain;
+    width: 44vw;
+    height: 200px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-position: right top;
+}
+.footer-left{
+    background: url("/public/images/footer-left.jpg") no-repeat;
+    -webkit-background-size:  contain;
+    background-size:  contain;
+    width: 44vw;
+    height: 280px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+article{
+    box-sizing: border-box;
+    border: 10px solid rgba(0,0,0,0);
+    color: white;
+}
+article:before{
+    border: 10px solid red;
+    z-index: 10;
+}
+
+
+
+article div{
+    height: 100%;
+}
+
+
+.long-article-header{
+    height: 255px;
+}
+.background-layer{
+    background: url("/public/images/background-1.jpg");
+    /*background-color: #ededed;*/
+    background-position: center top;
+}
+
+.image-1 {
+    background-image: url("/public/images/sherlock.jpg");
+}
+.image-2{
+    background-image: url("/public/images/footer-right.jpg");
+}
+
+
+
+.double article{
+    height: 510px;
+}
+.article-right{
+    background-color: white;
+    color: black;
+}
+.article-left{
+    color: white;
+    background-color: black;
+}
+.btn-next{
+    margin: 10px;
+    font-family: 'header-font';
+    font-size: 140%;
+    background-color: black;
+    color: white;
+    display: block;
+    padding: 10px;
+}
+.btn-next:hover{
+    background-color: gainsboro;
+}
+.navbar-nav>li>a:hover, .navbar-nav>li>a:focus {
+    background-color: gainsboro;
+    color: black;
+}
+.sidebar{
+    height: 300px;
+    background: url('/public/images/graffity.jpg') no-repeat bottom left, url('/public/images/graffity2.jpg') no-repeat bottom right;
+    background-color: black;
+    position: relative;
+}
+.sidebar-girl{
+    height: 527px;
+    width: 193px;
+    background: url('/public/images/back-girl.png');
+    position: absolute;
+    bottom: 0;
+    right: 160px;
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+    footer{
+        height: 250px;
+    }
+    .footer-right{
+        height: 250px;
+    }
+    .footer-left{
+        height: 250px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px){
+    footer{
+        margin-top: 50px;
+    }
+}
+@media (max-width: 767px){
+    footer{
+        margin-top: 2vw;
+        -webkit-background-size: cover;
+        background-size: cover;
+        height: auto;
+        background-position: center bottom;
+        background-color: black;
+    }
+    .footer-right{
+        display: none;
+    }
+    .footer-left{
+        display: block;
+    }
+}
+@media (max-width: 991px){
+    .footer-right{
+        opacity: 0.3;
+        width: 99vw;
+    }
+}
+@media (max-width: 1440px){
+    .footer-left{
+        display: none;
+    }
+}
