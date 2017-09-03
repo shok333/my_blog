@@ -7,22 +7,120 @@ class m170817_090426_post extends Migration
 {
     public function safeUp()
     {
-        $this->createTable('posts',[
+        $this->createTable('post',[
             'id' => $this->primaryKey(),
             'header' => $this->string(),
             'text' => $this->text()->notNull(),
             'date' => $this->date(),
+            'hash-tags' => $this->string(),
+            'image' => $this->string()
         ]);
-        $this->insert('posts',[
+        $this->insert('post',[
             'header' => 'О Николае Чеулзе',
             'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
+        ]);
+        $this->insert('post',[
+            'header' => 'О Николае Чеулзе',
+            'text' => 'Это текст о Николае Чеулзе',
+            'image' => '/web/images/sherlock2.jpg'
         ]);
     }
 
     public function safeDown()
     {
-        $this->delete('posts',['id' => 1]);
-        $this->dropTable('posts');
+        $this->delete('post',['id' => 1]);
+        $this->dropTable('post');
     }
 
     /*

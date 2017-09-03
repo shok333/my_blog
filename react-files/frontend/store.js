@@ -1,6 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {BrowserRouter,Route,Switch,Link} from 'react-router-dom';
 import {createStore,combineReducers} from 'redux';
-import {createBrowserHistory} from 'history';
+import indexReducer from './index/indexReducer.js';
 
+let reducers = combineReducers({
+    indexState: indexReducer
+});
+
+export default createStore(reducers);

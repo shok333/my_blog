@@ -22,7 +22,6 @@ article {
   margin: auto; }
 
 .article .image {
-  background: url("/web/images/sherlock2.jpg");
   -webkit-background-size: cover;
   background-size: cover;
   background-position: center center;
@@ -103,3 +102,59 @@ header {
   -webkit-background-size: cover;
   background-size: cover;
   background-position: center center; }
+
+footer {
+  height: 500px;
+  background-color: black; }
+
+.post-item-1-appear {
+  opacity: 0; }
+
+.post-item-1-appear.post-item-1-appear-active {
+  opacity: 1;
+  transition: 2s;
+  transition-timing-function: ease-out; }
+
+.post-item-2-appear {
+  opacity: 0; }
+
+.post-item-2-appear.post-item-2-appear-active {
+  opacity: 1;
+  transition: 2s;
+  transition-delay: .5s;
+  transition-timing-function: ease-out; }
+
+.post-item-3-appear {
+  opacity: 0; }
+
+.post-item-3-appear.post-item-3-appear-active {
+  opacity: 1;
+  transition: 2s;
+  transition-delay: 1s;
+  transition-timing-function: ease-out; }
+
+.post-item-4-appear {
+  opacity: 0; }
+
+.post-item-4-appear.post-item-4-appear-active {
+  opacity: 1;
+  transition: 2s;
+  transition-delay: 1.5s;
+  transition-timing-function: ease-out; }
+
+.post-item-5-appear {
+  opacity: 0; }
+
+.post-item-5-appear.post-item-5-appear-active {
+  opacity: 1;
+  transition: 2s;
+  transition-delay: 2s;
+  transition-timing-function: ease-out; }
+
+#btn {
+  background-color: red;
+  width: 500px;
+  height: 100px; }
+
+main {
+  min-height: 80vh; }

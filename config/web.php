@@ -46,7 +46,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
 //                '' => 'site/index',
-                'inika' => 'site/inika',
+                'get-posts' => 'site/get',
                 '<action>'=>'site/index',
             ],
         ],

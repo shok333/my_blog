@@ -9,17 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Post;
 
-class Post{
-    public $header;
-    public $p;
-    public $url;
-    function __construct($header,$p,$url){
-        $this->header=$header;
-        $this->p=$p;
-        $this->url=$url;
-    }
-}
 
 class SiteController extends Controller
 {
@@ -67,6 +58,9 @@ class SiteController extends Controller
             ],
         ];
     }
+    public function actionGet(){
+        return json_encode(Post::find()->where('id > '.$_GET['index'])->asArray()->orderBy('id')->limit(5)->all());
+    }
 
     public function actionIndex()
     {
@@ -90,4 +84,5 @@ class SiteController extends Controller
         return json_encode($data);
 //        return 'kiss my ass';
     }
+
 }
