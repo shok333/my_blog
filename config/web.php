@@ -25,11 +25,17 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' =>true,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'cpanel3.d.fozzy.com',
+                'username' => 'blog@supertop10.ru',
+                'password' => '43124312',
+                'port' => '465',
+                'encryption' => 'ssl',
+            ],
         ],
+
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -45,9 +51,12 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-//                '' => 'site/index',
-                'get-posts' => 'site/get',
-                '<action>'=>'site/index',
+                'login' =>'site/login',
+                'login-test' =>'site/login-test',
+                'registration' =>'site/registration',
+                'admin/<action>' => 'site/about',
+                'get-posts.json' => 'site/get-post-list',
+                '<action>' => 'site/get-post',
             ],
         ],
         

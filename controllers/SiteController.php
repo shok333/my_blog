@@ -10,6 +10,9 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Post;
+use yii\helpers\Html;
+use app\models\User;
+use app\models\MailerForm; //добавляемая строка
 
 
 class SiteController extends Controller
@@ -22,25 +25,34 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['about'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                 ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-            'layoutFilter' => [
-                'class' => LayoutFilter::className(),
+                'denyCallback' => function ($rule, $action) {
+                    return 'vvv';
+                },
             ]
         ];
+    }
+
+    public function beforeAction($action)
+    {
+        $cms=substr($_SERVER['REQUEST_URI'],0,6);
+        if(substr($_SERVER['REQUEST_URI'],0,6)=='/admin'){
+            if(!Yii::$app->user->isGuest){
+                if(Yii::$app->user->identity=='admin'){
+                    $a='admin';
+                }
+                else{
+                    $a='user';
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -58,12 +70,38 @@ class SiteController extends Controller
             ],
         ];
     }
-    public function actionGet(){
-        return json_encode(Post::find()->where('id > '.$_GET['index'])->asArray()->orderBy('id')->limit(5)->all());
+    public function actionGetPostList(){
+        if($_GET['index']){
+            $index=$_GET['index'];
+        }
+        else{
+            $index=0;
+        }
+        return json_encode(Post::find()->where('id > '.$index)->asArray()->orderBy('id')->limit(5)->all());
+    }
+
+    public function actionGetPost(){
+
+            $url=$_SERVER['REQUEST_URI'];
+            $url=substr($url,5);
+            $total=Post::find()->where('url = :url',[':url' => $url])->asArray()->one();
+            if($total){
+                    return json_encode($total);
+            }
+            Yii::$app->response->statusCode = 404;
+            return null;
+
     }
 
     public function actionIndex()
     {
+        $url=$_SERVER['REQUEST_URI'];
+        $url=substr($url,1);
+        $total=Post::find()->where('url = :url',[':url' => $url])->asArray()->one();
+        if(!$total){
+            Yii::$app->response->statusCode = 404;
+            setcookie("status", 404);
+        }
         return $this->render('index');
     }
 
@@ -72,17 +110,48 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
-    public function actionInika(){
-        $data=array(new Post('cms',
-            '555555555Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi deserunt dolorem eos et iure laboriosam magni modi quas quos ratione, temporibus, totam velit. Asperiores commodi expedita minus perspiciatis quos ut? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis dolor eos expedita iste neque nesciunt quas quisquam soluta. Culpa cupiditate debitis dicta dignissimos, eius fugit harum nulla placeat quasi soluta? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur laudantium quo ullam! Asperiores corporis doloremque, ducimus ea eum nesciunt perferendis praesentium quaerat quis sapiente! Earum enim inventore officia suscipit vitae. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt est et eum eveniet odio odit praesentium tenetur. Autem, cum deleniti dolor eum, excepturi laudantium, libero magni porro possimus saepe velit!',
-            'http://localhost/public/images/pineapple.png'
-        ),
-            new Post('cms',
-                '555555555Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi deserunt dolorem eos et iure laboriosam magni modi quas quos ratione, temporibus, totam velit. Asperiores commodi expedita minus perspiciatis quos ut? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis dolor eos expedita iste neque nesciunt quas quisquam soluta. Culpa cupiditate debitis dicta dignissimos, eius fugit harum nulla placeat quasi soluta? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur laudantium quo ullam! Asperiores corporis doloremque, ducimus ea eum nesciunt perferendis praesentium quaerat quis sapiente! Earum enim inventore officia suscipit vitae. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt est et eum eveniet odio odit praesentium tenetur. Autem, cum deleniti dolor eum, excepturi laudantium, libero magni porro possimus saepe velit!',
-                'http://localhost/public/images/footer-right.jpg'
-            ));
-        return json_encode($data);
-//        return 'kiss my ass';
+    public function actionCms(){
+        return json_encode(array(csrf => Yii::$app->getRequest()->getCsrfToken(),'inika' => 'cms'));
     }
 
+    public function actionLogin(){
+        if(Yii::$app->user->isGuest){
+            $identity=User::find()->where(['email' => $_POST['email']])->one();
+            if($identity){
+                $password=$_POST['password'];
+                $hash=$identity->password;
+                if(Yii::$app->getSecurity()->validatePassword($password, $hash)){
+                    Yii::$app->user->login($identity,$duration = 10000);
+                    return 'Успешная авторизация';
+                }
+                return 'Неверный пароль';
+            }
+            else{
+                return 'Пользователь не найден';
+            }
+        }
+        return 'Пользователь уже авторизирован';
+    }
+    public function actionRegistration(){
+        $model = User::find()->where(['email' => $_POST['email']])->one();
+
+        if (!$model) {
+            $user = new User();
+            $user->name = $_POST['name'];
+            $user->email = $_POST['email'];
+            $user->status = 'user';
+            $user->password = Yii::$app->getSecurity()->generatePasswordHash($_POST['password']);//VREMENNO
+            if ($user->save()) {
+                $user->emailConfirm();
+                return 'ok';
+            }
+        }
+        return 'Пользователь с таким email уже зарегистрирован';
+    }
+    public function actionLoginTest(){
+        if(Yii::$app->user->isGuest){
+            return null;
+        }
+        return json_encode(array('name' => Yii::$app->user->identity->name));
+    }
 }

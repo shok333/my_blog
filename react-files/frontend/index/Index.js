@@ -1,7 +1,7 @@
 import React from 'react';
 import Post from './Post.js';
-import './index.sass'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import {Link} from 'react-router-dom';
 
 export default class Index extends React.Component{
     constructor(){
@@ -21,7 +21,9 @@ export default class Index extends React.Component{
                 else{
                     totalArray[totalArrayIndex]=(
                         <div className="row" key={this.state.keyIndex+totalArrayIndex}>
-                            <Post key={i} number={i} width={6} header={postArray[i].header} a={postArray[i].a} image={postArray[i].image}/>
+                            <Link to={postArray[i].url}>
+                                <Post key={i} number={i} width={6} header={postArray[i].header} a={postArray[i].a} image={postArray[i].image}/>
+                            </Link>
                         </div>
                     )
                 }
@@ -31,10 +33,14 @@ export default class Index extends React.Component{
 
                         <div className="row" key={this.state.keyIndex+totalArrayIndex}>
                             <ReactCSSTransitionGroup transitionName="post-item-1" transitionAppear={true} transitionAppearTimeout={5000} transitionEnterTimeout={5000} transitionLeaveTimeout={5000}>
-                                <Post key={i-1} number={i-1} width={6} header={postArray[i-1].header} a={postArray[i].a} image={postArray[i].image}/>
+                                <Link to={postArray[i-1].url}>
+                                    <Post key={i-1} number={i-1} width={6} header={postArray[i-1].header} a={postArray[i].a} image={postArray[i].image}/>
+                                </Link>
                             </ReactCSSTransitionGroup>
                             <ReactCSSTransitionGroup transitionName="post-item-2" transitionAppear={true} transitionAppearTimeout={7000} transitionEnterTimeout={5000} transitionLeaveTimeout={5000}>
-                                <Post key={i} number={i} width={6} header={postArray[i].header} a={postArray[i].a} image={postArray[i].image}/>
+                                <Link to={postArray[i].url}>
+                                    <Post key={i} number={i} width={6} header={postArray[i].header} a={postArray[i].a} image={postArray[i].image}/>
+                                </Link>
                             </ReactCSSTransitionGroup>
                         </div>
 
@@ -48,7 +54,9 @@ export default class Index extends React.Component{
                     totalArray[totalArrayIndex]=(
 
                             <div className="row" key={this.state.keyIndex+totalArrayIndex}>
-                                <Post key={i} number={i} width={6} header={postArray[i].header} a={postArray[i].a} image={postArray[i].image}/>
+                                <Link to={postArray[i].url}>
+                                    <Post key={i} number={i} width={6} header={postArray[i].header} a={postArray[i].a} image={postArray[i].image}/>
+                                </Link>
                             </div>
 
                     );
@@ -61,9 +69,13 @@ export default class Index extends React.Component{
                     totalArray[totalArrayIndex]=(
                         <div className="row" key={this.state.keyIndex+totalArrayIndex}>
                             <div className="double-article col-lg-6">
-                                <Post key={i-1} number={i-1} width={12} header={postArray[i-1].header} a={postArray[i].a} image={postArray[i].image}/>
+                                <Link to={postArray[i-1].url}>
+                                    <Post key={i-1} number={i-1} width={12} header={postArray[i-1].header} a={postArray[i].a} image={postArray[i].image}/>
+                                </Link>
                             </div>
-                            <Post key={i} number={i} width={6} header={postArray[i].header} a={postArray[i].a} image={postArray[i].image}/>
+                            <Link to={postArray[i].url}>
+                                <Post key={i} number={i} width={6} header={postArray[i].header} a={postArray[i].a} image={postArray[i].image}/>
+                            </Link>
                         </div>);
                 }
             }
@@ -72,14 +84,20 @@ export default class Index extends React.Component{
                     <div className="row" key={this.state.keyIndex+totalArrayIndex}>
                         <div className="double-article col-lg-6">
                             <ReactCSSTransitionGroup transitionName="post-item-3" transitionAppear={true} transitionAppearTimeout={5000} transitionEnterTimeout={5000} transitionLeaveTimeout={5000}>
-                                <Post key={i-2} number={i-2} width={12} header={postArray[i-2].header} a={postArray[i].a} image={postArray[i].image}/>
+                                <Link to={postArray[i-2].url}>
+                                    <Post key={i-2} number={i-2} width={12} header={postArray[i-2].header} a={postArray[i].a} image={postArray[i].image}/>
+                                </Link>
                             </ReactCSSTransitionGroup>
                             <ReactCSSTransitionGroup transitionName="post-item-5" transitionAppear={true} transitionAppearTimeout={5000} transitionEnterTimeout={5000} transitionLeaveTimeout={5000}>
-                                <Post key={i} number={i} width={12} header={postArray[i].header} a={postArray[i].a} image={postArray[i].image}/>
+                                <Link to={postArray[i].url}>
+                                    <Post key={i} number={i} width={12} header={postArray[i].header} a={postArray[i].a} image={postArray[i].image}/>
+                                </Link>
                             </ReactCSSTransitionGroup>
                         </div>
                         <ReactCSSTransitionGroup transitionName="post-item-4" transitionAppear={true} transitionAppearTimeout={5000} transitionEnterTimeout={5000} transitionLeaveTimeout={5000}>
-                            <Post key={i-1} number={i-1} width={6} header={postArray[i-1].header} a={postArray[i].a} image={postArray[i].image}/>
+                            <Link to={postArray[i-1].url}>
+                                <Post key={i-1} number={i-1} width={6} header={postArray[i-1].header} a={postArray[i].a} image={postArray[i].image}/>
+                            </Link>
                         </ReactCSSTransitionGroup>
 
                     </div>);
@@ -90,29 +108,6 @@ export default class Index extends React.Component{
         return totalArray;
 
     }
-    //componentDidMountt(){
-    //    function addElements(){
-    //        if((main.offsetHeight+main.offsetTop)-window.pageYOffset<920){
-    //            this.setState({totalArray: this.state.totalArray.concat([
-    //                <ReactCSSTransitionGroup transitionName="slide" transitionAppear={true} transitionAppearTimeout={5000} transitionEnter={false} transitionLeave={false}>
-    //                    <div className="row" key={1000}>
-    //                        <ReactCSSTransitionGroup transitionName="anim" transitionAppear={true} transitionAppearTimeout={1000} transitionEnter={false} transitionLeave={false}>
-    //                            <Post key={100} number={100} width={6} header={'cms'} a={postArray[1].a} image={postArray[1].image}/>
-    //                        </ReactCSSTransitionGroup>
-    //                        <ReactCSSTransitionGroup transitionName="anim" transitionAppear={true} transitionAppearTimeout={10000} transitionEnter={false} transitionLeave={false}>
-    //                            <Post key={101} number={101} width={6} header={'cms'} a={postArray[1].a} image={postArray[1].image}/>
-    //                        </ReactCSSTransitionGroup>
-    //                    </div>
-    //                </ReactCSSTransitionGroup>
-    //            ])});
-    //            document.removeEventListener('scroll',addElements.bind(this));
-    //        }
-    //
-    //    }
-    //    let postArray=this.props.postArray;
-    //    let main = document.querySelector('main');
-    //    document.addEventListener('scroll',addElements.bind(this));
-    //}
     addElements(){
         let main = document.querySelector('main');
         //let container = $('.container')[0];
@@ -128,6 +123,9 @@ export default class Index extends React.Component{
         window.onscroll=this.addElements.bind(this);
 
 
+    }
+    componentWillUnmount(){
+        window.onscroll=null;
     }
     render(){
         return (

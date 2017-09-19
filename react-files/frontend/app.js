@@ -7,6 +7,7 @@ import Application from './Application.js';
 import store from './store.js';
 import {Provider} from 'react-redux';
 import './style.sass';
+import './index/index.sass';
 
 ReactDOM.render(
         <Router history={history}>
