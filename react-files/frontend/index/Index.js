@@ -113,7 +113,6 @@ export default class Index extends React.Component{
         //let container = $('.container')[0];
         //console.log(container.offset().top);
         if((main.offsetHeight+main.offsetTop)-window.pageYOffset<750){
-            console.log('cms');
             window.onscroll=null;
             this.props.getPostList.call(this,this.state.index);
         }

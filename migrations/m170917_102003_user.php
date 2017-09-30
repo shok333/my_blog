@@ -13,7 +13,7 @@ class m170917_102003_user extends Migration
             'password' => $this->string(),
             'status' => $this->string(),
             'confirm' =>$this->boolean(),
-            'photo' =>$this->string()
+            'image' =>$this->string()
         ]);
     }
 

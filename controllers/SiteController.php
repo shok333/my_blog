@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Image;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -13,6 +14,8 @@ use app\models\Post;
 use yii\helpers\Html;
 use app\models\User;
 use app\models\MailerForm; //добавляемая строка
+use yii\web\UploadedFile;
+
 
 
 class SiteController extends Controller
@@ -39,21 +42,21 @@ class SiteController extends Controller
         ];
     }
 
-    public function beforeAction($action)
-    {
-        $cms=substr($_SERVER['REQUEST_URI'],0,6);
-        if(substr($_SERVER['REQUEST_URI'],0,6)=='/admin'){
-            if(!Yii::$app->user->isGuest){
-                if(Yii::$app->user->identity=='admin'){
-                    $a='admin';
-                }
-                else{
-                    $a='user';
-                }
-            }
-        }
-        return true;
-    }
+//    public function beforeAction($action)
+//    {
+//        $cms=substr($_SERVER['REQUEST_URI'],0,6);
+//        if(substr($_SERVER['REQUEST_URI'],0,6)=='/admin'){
+//            if(!Yii::$app->user->isGuest){
+//                if(Yii::$app->user->identity=='admin'){
+//                    $a='admin';
+//                }
+//                else{
+//                    $a='user';
+//                }
+//            }
+//        }
+//        return true;
+//    }
 
     /**
      * @inheritdoc
@@ -78,6 +81,10 @@ class SiteController extends Controller
             $index=0;
         }
         return json_encode(Post::find()->where('id > '.$index)->asArray()->orderBy('id')->limit(5)->all());
+    }
+
+    public function actionGetUserList(){
+        return json_encode(User::find()->where('id > '.$_GET['index'])->asArray()->orderBy('id')->limit(5)->all());
     }
 
     public function actionGetPost(){
@@ -110,8 +117,10 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
-    public function actionCms(){
-        return json_encode(array(csrf => Yii::$app->getRequest()->getCsrfToken(),'inika' => 'cms'));
+    public function actionCsrf(){
+
+
+        return $this->render('form');
     }
 
     public function actionLogin(){
@@ -136,10 +145,15 @@ class SiteController extends Controller
         $model = User::find()->where(['email' => $_POST['email']])->one();
 
         if (!$model) {
+
+            $image= new Image();
+            $imageUrl=$image->saveImage();
+
             $user = new User();
             $user->name = $_POST['name'];
             $user->email = $_POST['email'];
             $user->status = 'user';
+            $user->image = $imageUrl;
             $user->password = Yii::$app->getSecurity()->generatePasswordHash($_POST['password']);//VREMENNO
             if ($user->save()) {
                 $user->emailConfirm();
@@ -153,5 +167,16 @@ class SiteController extends Controller
             return null;
         }
         return json_encode(array('name' => Yii::$app->user->identity->name));
+    }
+
+    public function actionBanUser(){
+        $user=new User();
+        $userForDelete=$user->findOne($_GET['id']);
+        $userForDelete->status='banned';
+        $userForDelete->save();
+        return 'ok';
+    }
+    public function actionGetImage(){
+        return '5';
     }
 }

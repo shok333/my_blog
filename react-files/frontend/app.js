@@ -8,6 +8,7 @@ import store from './store.js';
 import {Provider} from 'react-redux';
 import './style.sass';
 import './index/index.sass';
+import './admin/admin.sass';
 
 ReactDOM.render(
         <Router history={history}>

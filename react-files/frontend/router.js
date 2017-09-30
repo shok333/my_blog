@@ -13,7 +13,7 @@ export default(
         <Route exact path='/login-form' component={LoginForm}/>
         <Route exact path='/registration-form' component={RegistrationForm}/>
         <Route exact path='/about' render={()=>(<h1>about</h1>)}/>
-        <Route exact path='/admin/ddd' component={AdminPanel}/>
+        <Route path='/admin' component={AdminPanel}/>
         <Route component={PostPageContainer}/>
     </Switch>
 );

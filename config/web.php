@@ -11,7 +11,9 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '77777',
-//            'baseUrl' => ''
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser', // required for POST input via `php://input`
+            ]
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -51,10 +53,12 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'csrf' => 'site/csrf',
                 'login' =>'site/login',
                 'login-test' =>'site/login-test',
                 'registration' =>'site/registration',
-                'admin/<action>' => 'site/about',
+                'admin/user-list' => 'site/get-user-list',
+                'admin/ban-user' => 'site/ban-user',
                 'get-posts.json' => 'site/get-post-list',
                 '<action>' => 'site/get-post',
             ],
