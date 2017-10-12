@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\models\Image;
+use app\models\Images;
+use app\models\Texts;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -42,21 +44,26 @@ class SiteController extends Controller
         ];
     }
 
-//    public function beforeAction($action)
-//    {
-//        $cms=substr($_SERVER['REQUEST_URI'],0,6);
-//        if(substr($_SERVER['REQUEST_URI'],0,6)=='/admin'){
-//            if(!Yii::$app->user->isGuest){
-//                if(Yii::$app->user->identity=='admin'){
-//                    $a='admin';
-//                }
-//                else{
-//                    $a='user';
-//                }
-//            }
-//        }
-//        return true;
-//    }
+    public function beforeAction($action)
+    {
+        $url=substr($_SERVER['REQUEST_URI'],0,6);
+        if(substr($_SERVER['REQUEST_URI'],0,10)=='/web/admin'||substr($_SERVER['REQUEST_URI'],0,6)=='/admin'){
+            if(!Yii::$app->user->isGuest){
+                if(Yii::$app->user->identity=='admin'){
+                    $a='admin';
+                }
+                else{
+                    $a='user';
+                }
+            }
+            else{
+                header("HTTP/1.1 401 Unauthorized");
+                $this->redirect('/login-form',301);
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * @inheritdoc
@@ -147,7 +154,7 @@ class SiteController extends Controller
         if (!$model) {
 
             $image= new Image();
-            $imageUrl=$image->saveImage();
+            $imageUrl=$image->saveImage("image","smallImage");
 
             $user = new User();
             $user->name = $_POST['name'];
@@ -178,5 +185,65 @@ class SiteController extends Controller
     }
     public function actionGetImage(){
         return '5';
+    }
+    public function actionGetStatus(){
+        if(Yii::$app->user->isGuest){
+            return 'guest';
+        }
+        else{
+            $ggg=Yii::$app->user->identity->status;
+            if(Yii::$app->user->identity->status==='admin'){
+                return 'admin';
+            }
+            else{
+                return 'user';
+            }
+        }
+    }
+    public function actionCreateNewPost(){
+        $keyArray=json_decode($_POST['keyArray']);
+        $post=new Post();
+        $index=1;
+        $test=Yii::$app->user->identity->name;
+        foreach($keyArray as $item){
+            if(isset($_POST[$item])){
+                $textElement=json_decode($_POST[$item]);
+                if($textElement->type=='h1'){
+                    $post->header=$textElement->value;
+                    $post->url='url';
+
+                    $post->author=Yii::$app->user->identity->name;
+                    $post->save();
+                    $a=10;
+                }
+                else{
+                    $texts= new Texts();
+                    $texts->value=$textElement->value;
+                    $texts->type=$textElement->type;
+                    $texts->post_id=$post->id;
+                    $texts->number=$index;
+                    $index++;
+                    $texts->save();
+                }
+
+//                $texts->value = $textElement[]
+            }
+            else if(isset($_FILES[$item])){
+                $images= new Images();
+                $images->post_id=$post->id;
+                $images->number=$index;
+                $index++;
+                $image=new Image();
+                $imageName=$image->saveImage($item,'s'.$item);
+                $images->name=$imageName;
+                $post->image=$imageName;
+                $images->save();
+                $post->save();
+            }
+            else{
+                return 'error';
+            }
+        }
+        return 'ok';
     }
 }

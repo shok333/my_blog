@@ -6,33 +6,98 @@ import store from '../store.js';
 class AdminNewPost extends React.Component{
     constructor(){
         super(arguments[0]);
-        this.state={elements: <div/>};
+        this.state={elements: null, submitButton: null};
     }
     componentDidMount(){
         dragula([document.querySelector('#drag')]);
         let state=store.getState();
         this.setState({elements: state.adminState.elementsFromRendering});
         store.subscribe(()=>{
-            let state=store.getState();
-            this.setState({elements: state.adminState.elementsFromRendering});
+            let state=store.getState().adminState.elementsFromRendering;
+            if(state.length==0){
+                this.setState({elements: state, submitButton: <div/>});
+            }
+            else{
+                this.setState({elements: state, submitButton: <button className='btn' onClick={this.createPost.bind(this)}>РћРїСѓР±Р»РёРєРѕРІР°С‚СЊ РїРѕСЃС‚</button>});
+            }
         });
     }
-    componentWillMount(){
+    createPost(){
+        let elementsForDB=store.getState().adminState.elementsFromDB;
+        let generalState=store.getState().generalState;
+        let keyArray=[];
+        let formData=new FormData();
+        let url=false;
+        let h1=false;
+        document.querySelector('#drag').childNodes.forEach((item)=>{
+            let key=item.dataset.key;
+            if(key){
+                keyArray.push(key);
+                if(item.childNodes[0].tagName.toUpperCase()==='IMG'){
+                    generalState.forEach((item)=>{
+                        if(key==item.key){
+                            formData.append(item.key,item.image);
+                            formData.append('s'+item.key,item.smallImage);
+                        }
+                    });
+                }
+                else{
+                    elementsForDB.forEach(function(item){
+                        if(item.key==key){
+                            if(item.type.toUpperCase()=='span'.toUpperCase()){
+                                url=true;
+                            }
+                            if(item.type.toUpperCase()=='H1'.toUpperCase()){
+                                h1=true;
+                            }
+                            formData.append(key,JSON.stringify(item));
+                        }
+                    })
 
+                }
+            }
+
+        });
+
+        formData.append('keyArray',JSON.stringify(keyArray));
+        var param = $('meta[name=csrf-param]').attr("content");
+        var token = $('meta[name=csrf-token]').attr("content");
+        if(h1){
+            if(url){
+                formData.append(param, token);
+                this.ajax=$.ajax({url:'/web/admin/create-new-post', type: 'post', data: formData, processData: false, contentType: false,success:((data)=>{
+                    alert('ok');
+                })});
+            }
+            else{
+                alert('Р·Р°РїРѕР»РЅРёС‚Рµ Url');
+            }
+        }
+        else{
+            alert('Р·Р°РїРѕР»РЅРёС‚Рµ H1');
+        }
+    }
+    componentWillUnmount(){
+        if(this.ajax){
+            this.ajax.abort();
+        }
     }
     render(){
         return (
-            <div id='drag' className='container'>
-                {this.state.elements}
-            </div>
+           <div>
+               <div id='drag'>
+                   {this.state.elements}
+               </div>
+               {this.state.submitButton}
+           </div>
         )
     }
 }
 
 function mapStateToProps(state){
     return {
-        adminState: state.adminState //Указываем state у store, относящийся к данному компоненту.
-        //В props будут указаны state относящийся к этому компоненту(С именем adminState, который мы указали в имени параметра объекта) и метод dispatch
+        adminState: state.adminState //РЈРєР°Р·С‹РІР°РµРј state Сѓ store, РѕС‚РЅРѕСЃСЏС‰РёР№СЃСЏ Рє РґР°РЅРЅРѕРјСѓ РєРѕРјРїРѕРЅРµРЅС‚Сѓ.
+        //Р’ props Р±СѓРґСѓС‚ СѓРєР°Р·Р°РЅС‹ state РѕС‚РЅРѕСЃСЏС‰РёР№СЃСЏ Рє СЌС‚РѕРјСѓ РєРѕРјРїРѕРЅРµРЅС‚Сѓ(РЎ РёРјРµРЅРµРј adminState, РєРѕС‚РѕСЂС‹Р№ РјС‹ СѓРєР°Р·Р°Р»Рё РІ РёРјРµРЅРё РїР°СЂР°РјРµС‚СЂР° РѕР±СЉРµРєС‚Р°) Рё РјРµС‚РѕРґ dispatch
     }
 }
 export default connect(mapStateToProps)(AdminNewPost);

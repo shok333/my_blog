@@ -16,8 +16,10 @@ class TextPanel extends React.Component{
     textEnter(event){
         this.cancel();
         let element;
+        var required=false;
         switch (this.props.type){
             case 'h1':
+                required=true;
                 element=<h1>{this.state.text}</h1>;
                 break;
             case 'h2':
@@ -29,13 +31,27 @@ class TextPanel extends React.Component{
             case 'p':
                 element=<p>{this.state.text}</p>;
                 break;
+            case 'url':
+                required=true;
+                element=<span className='url'>{this.state.text}</span>;
+                break;
         }
         let key=+(new Date);
-        this.addElementToStore(<div key={key}>
-            {element}
-            <button key={2} data-key={key} className='btn' onClick={this.editElement.bind(this)}>Редактировать</button>
-            <button key={3} data-key={key} className='btn' onClick={this.remoteElement.bind(this)}>Удалить</button>
-        </div>);
+        if(required){
+            this.addElementToStore(
+                <div key={key} data-key={key} className='col-lg-12'>
+                    {element}
+                    <button key={2} data-key={key} className='btn' onClick={this.editElement.bind(this)}>Редактировать</button>
+                </div>,required);
+        }
+        else{
+            this.addElementToStore(
+                <div key={key} data-key={key} className='col-lg-12'>
+                    {element}
+                    <button key={2} data-key={key} className='btn' onClick={this.editElement.bind(this)}>Редактировать</button>
+                    <button key={3} data-key={key} className='btn' onClick={this.remoteElement.bind(this)}>Удалить</button>
+                </div>,false);
+        }
     }
 
     editElement(event){
@@ -49,8 +65,8 @@ class TextPanel extends React.Component{
         this.props.dispatch({type: 'REMOVE_ELEMENT',key:event.target.dataset.key});
     }
 
-    addElementToStore(element){
-        this.props.dispatch({type: 'ADD_ELEMENT', element: element});
+    addElementToStore(element, required){
+        this.props.dispatch({type: 'ADD_ELEMENT', element: element, required: required});
     }
 
     render(){

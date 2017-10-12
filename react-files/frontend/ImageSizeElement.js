@@ -1,6 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-export default class ImageSizeElement extends React.Component{
+class ImageSizeElement extends React.Component{
     imageResize(){
         document.body.style.overflow='hidden';
 
@@ -29,35 +30,44 @@ export default class ImageSizeElement extends React.Component{
                 }
                 return img;
             }
-            let canvas=resize(image,200,200);
-            let smallCanvas=resize(image,100,100);
+            if(this.props.square){
+                var canvas=resize(image,200,200);
+                var smallCanvas=resize(image,100,100);
+            }
+            else{
+                var canvas=image;
+                var smallCanvas=image;
+            }
+            let key=+(new Date);
 
             smallCanvas.toBlob((blob)=>{
-                blob.name='imagename.'+blob.type.substr(6);
-                this.setState({smallImage: blob});
-                let fr = new FileReader();
+                blob.name='s'+key+'.'+blob.type.substr(6);
+                this.smallImage=blob;
             });
 
             canvas.toBlob((blob)=>{
-                blob.name='imagename.'+blob.type.substr(6);
-                this.setState({image: blob});
                 let fr = new FileReader();
                 fr.addEventListener("load", (event)=> {
-                    this.props.setImages(this.state.image,this.state.smallImage);
-
-                    this.setState({imagePanel: <img id='image' src={event.target.result}/>});
+                    this.props.dispatch({type: 'ADD_IMAGE', key: key, image: blob, smallImage: this.smallImage, imageForRendering: <img id='image' src={event.target.result}/>});
+                    this.props.dispatch({type: 'ADD_ELEMENT', element:
+                        <div key={key} data-key={key}>
+                            <img id='image' src={event.target.result}/>
+                            <button key={2} data-key={key} className='btn' >Редактировать</button>
+                            <button key={3} data-key={key} className='btn' onClick={this.deleteImage}>Удалить</button>
+                        </div>
+                    });
+                    this.props.dispatch({type: 'REMOVE_ELEMENT_FOR_EDIT'});
                     document.body.style.overflow='';
                 });
                 fr.readAsDataURL(blob);
+                blob.name=key+'.'+blob.type.substr(6);
 
             });
-
 
 
 
 
         }
-
         this.setState({imagePanel:
             <div className='image-panel'>
                 <div id='container'>
@@ -71,9 +81,20 @@ export default class ImageSizeElement extends React.Component{
 
 
     }
+    deleteImage(event){
+        let key=event.target.dataset.key;
+        this.props.dispatch({type: 'REMOVE_IMAGE', key: key});
+        this.props.dispatch({type: 'REMOVE_ELEMENT', key: key});
+    }
     componentDidUpdate(){
         if(!this.state.cropper){
-            var cropper = new Cropper(image, {aspectRatio: 1,zoomOnWheel: false});
+            if(this.props.square){
+                var cropper = new Cropper(image, {aspectRatio: 1,zoomOnWheel: false});
+            }
+            else{
+                var cropper = new Cropper(image, {zoomOnWheel: false});
+            }
+
             image.addEventListener('ready', function () {
                 cropper.zoom(0.01);
             });
@@ -88,7 +109,15 @@ export default class ImageSizeElement extends React.Component{
     componentDidMount(){
         this.imageResize();
     }
+
     render(){
         return <div>{this.state.imagePanel}</div>
     }
 }
+
+function mapStateToProps(state){
+    return {
+        generalState: state.generalState
+    }
+}
+export default connect(mapStateToProps)(ImageSizeElement);

@@ -21,7 +21,7 @@ export default class NavBar extends React.Component{
                         <li><NavLink to="/">Главная</NavLink></li>
                         <li><NavLink to="/about">О сайте</NavLink></li>
                         <li><NavLink to="/cms">CMS</NavLink></li>
-                        <li><NavLink to="/inika">inika</NavLink></li>
+                        <li><NavLink to="/admin">ADMIN</NavLink></li>
                         {this.state.user}
                     </ul>
                 </div>

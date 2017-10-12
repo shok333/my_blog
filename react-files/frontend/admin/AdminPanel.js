@@ -8,33 +8,41 @@ import AdminCreatePost from './AdminCreatePost';
 export default class AdminPanel extends React.Component{
     constructor(){
         super(arguments[0]);
-        this.state={obj:<div>CCCC</div>};
+        this.state={obj:<div></div>, render: <div/>};
+
     }
-    //componentDidMount(){
-    //    $.get('/web/admin/root',function(data){
-    //        console.dir(JSON.parse(data));
-    //    });
-    //}
+    componentDidMount(){
+        $.get('/web/get-status',(data) => {
+            if(data === 'user'){
+                this.setState({render: <div>Извините, но данное поле доступно только админам</div>});
+            }
+            else if(data === 'admin'){
+                this.setState({render:
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-lg-3">
+                                <div className="row">
+                                    <AdminMenu/>
+                                </div>
+                            </div>
+                            <div className="col-lg-9">
+                                <div className="row">
+                                    <Switch>
+                                        <Route exact path='/admin/create-post' component={AdminCreatePost}/>
+                                        <Route exact path='/admin/post-list' component={AdminPostList}/>
+                                        <Route exact path='/admin/user-list' component={AdminUserList}/>
+                                    </Switch>
+                                </div>
+                            </div>
+                        </div>
+                    </div>});
+            }
+            else{
+                this.setState({render: <div>Извините, но данное поле доступно только админам</div>});
+            }
+        });
+    }
     render() {
-        return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-lg-3">
-                        <div className="row">
-                            <AdminMenu/>
-                        </div>
-                    </div>
-                    <div className="col-lg-9">
-                        <div className="row">
-                            <Switch>
-                                <Route exact path='/admin/create-post' component={AdminCreatePost}/>
-                                <Route exact path='/admin/post-list' component={AdminPostList}/>
-                                <Route exact path='/admin/user-list' component={AdminUserList}/>
-                            </Switch>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
+        return this.state.render;
     }
 }

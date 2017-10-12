@@ -21,9 +21,11 @@ export default class Index extends React.Component{
                 else{
                     totalArray[totalArrayIndex]=(
                         <div className="row" key={this.state.keyIndex+totalArrayIndex}>
-                            <Link to={postArray[i].url}>
-                                <Post key={i} number={i} width={6} header={postArray[i].header} a={postArray[i].a} image={postArray[i].image}/>
-                            </Link>
+                            <ReactCSSTransitionGroup transitionName="post-item-1" transitionAppear={true} transitionAppearTimeout={5000} transitionEnterTimeout={5000} transitionLeaveTimeout={5000}>
+                                <Link to={postArray[i].url}>
+                                    <Post key={i} number={i} width={6} header={postArray[i].header} a={postArray[i].a} image={postArray[i].image}/>
+                                </Link>
+                            </ReactCSSTransitionGroup>
                         </div>
                     )
                 }
@@ -34,7 +36,7 @@ export default class Index extends React.Component{
                         <div className="row" key={this.state.keyIndex+totalArrayIndex}>
                             <ReactCSSTransitionGroup transitionName="post-item-1" transitionAppear={true} transitionAppearTimeout={5000} transitionEnterTimeout={5000} transitionLeaveTimeout={5000}>
                                 <Link to={postArray[i-1].url}>
-                                    <Post key={i-1} number={i-1} width={6} header={postArray[i-1].header} a={postArray[i].a} image={postArray[i].image}/>
+                                    <Post key={i-1} number={i-1} width={6} header={postArray[i-1].header} a={postArray[i-1].a} image={postArray[i-1].image}/>
                                 </Link>
                             </ReactCSSTransitionGroup>
                             <ReactCSSTransitionGroup transitionName="post-item-2" transitionAppear={true} transitionAppearTimeout={7000} transitionEnterTimeout={5000} transitionLeaveTimeout={5000}>
@@ -70,7 +72,7 @@ export default class Index extends React.Component{
                         <div className="row" key={this.state.keyIndex+totalArrayIndex}>
                             <div className="double-article col-lg-6">
                                 <Link to={postArray[i-1].url}>
-                                    <Post key={i-1} number={i-1} width={12} header={postArray[i-1].header} a={postArray[i].a} image={postArray[i].image}/>
+                                    <Post key={i-1} number={i-1} width={12} header={postArray[i-1].header} a={postArray[i-1].a} image={postArray[i-1].image}/>
                                 </Link>
                             </div>
                             <Link to={postArray[i].url}>
@@ -85,7 +87,7 @@ export default class Index extends React.Component{
                         <div className="double-article col-lg-6">
                             <ReactCSSTransitionGroup transitionName="post-item-3" transitionAppear={true} transitionAppearTimeout={5000} transitionEnterTimeout={5000} transitionLeaveTimeout={5000}>
                                 <Link to={postArray[i-2].url}>
-                                    <Post key={i-2} number={i-2} width={12} header={postArray[i-2].header} a={postArray[i].a} image={postArray[i].image}/>
+                                    <Post key={i-2} number={i-2} width={12} header={postArray[i-2].header} a={postArray[i-2].a} image={postArray[i-2].image}/>
                                 </Link>
                             </ReactCSSTransitionGroup>
                             <ReactCSSTransitionGroup transitionName="post-item-5" transitionAppear={true} transitionAppearTimeout={5000} transitionEnterTimeout={5000} transitionLeaveTimeout={5000}>
@@ -96,7 +98,7 @@ export default class Index extends React.Component{
                         </div>
                         <ReactCSSTransitionGroup transitionName="post-item-4" transitionAppear={true} transitionAppearTimeout={5000} transitionEnterTimeout={5000} transitionLeaveTimeout={5000}>
                             <Link to={postArray[i-1].url}>
-                                <Post key={i-1} number={i-1} width={6} header={postArray[i-1].header} a={postArray[i].a} image={postArray[i].image}/>
+                                <Post key={i-1} number={i-1} width={6} header={postArray[i-1].header} a={postArray[i-1].a} image={postArray[i-1].image}/>
                             </Link>
                         </ReactCSSTransitionGroup>
 

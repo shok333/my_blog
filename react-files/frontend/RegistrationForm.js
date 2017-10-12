@@ -1,7 +1,11 @@
 import React from 'react';
 import ImageSizeElement from './ImageSizeElement';
+import store from './store.js';
+import { connect } from 'react-redux';
 
-export default class RegistrationForm extends React.Component{
+
+
+class RegistrationForm extends React.Component{
     constructor(){
         super(arguments[0]);
         let fileInput=<input id='file' type="file" onChange={this.imageUploaded.bind(this)}/>;
@@ -27,16 +31,12 @@ export default class RegistrationForm extends React.Component{
         };
 
     }
-    setImages(image,smallImage){
-        this.setState({image: image});
-        this.setState({smallImage: smallImage});
-    }
 
     imageUploaded(event){
         var fr = new FileReader();
         this.setState({imagePanel: <div></div>});
         fr.addEventListener("load", (function (event) {
-            this.setState({imagePanel:<ImageSizeElement loadedImage={event.target.result} setImages={this.setImages.bind(this)}/>});
+            this.setState({imagePanel:<ImageSizeElement loadedImage={event.target.result} square={true}/>});
         }).bind(this));
         fr.readAsDataURL(event.target.files[0]);
 
@@ -76,6 +76,18 @@ export default class RegistrationForm extends React.Component{
         }).bind(this)});
 
     }
+    componentWillUnmount(){
+        this.props.dispatch({type: 'REMOVE_ALL_IMAGES'});
+        this.props.dispatch({type: 'REMOVE_ALL_ELEMENTS'});
+    }
+    componentDidMount(){
+        store.subscribe((function(){
+            if(store.getState().generalState[0]){
+                let generalState=store.getState().generalState[0];
+                this.setState({imagePanel: generalState.imageForRendering, image: generalState.image, smallImage:generalState.smallImage});
+            }
+        }).bind(this));
+    }
     render(){
         return(
             <div className="container">
@@ -90,6 +102,10 @@ export default class RegistrationForm extends React.Component{
             </div>
         );
     }
-
-
 }
+function mapStateToProps(state){
+    return {
+        generalStates: state.generalState
+    }
+}
+export default connect(mapStateToProps)(RegistrationForm);

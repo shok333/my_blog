@@ -8,7 +8,7 @@ export default class Post extends React.Component{
             this.state={post:
                     <article className={"col-lg-"+this.props.width+" article small-article-right"}>
                         <div className="row">
-                            <div className="col-lg-6 image col-lg-push-6" style={{backgroundImage: 'url('+this.props.image+')'}}>
+                            <div className="col-lg-6 image col-lg-push-6" style={{backgroundImage: 'url('+'/web/images/small-user-image/'+this.props.image+')'}}>
                                 <div className="arrow"></div>
                             </div>
                             <div className="col-lg-6 header col-lg-pull-6">
@@ -23,7 +23,7 @@ export default class Post extends React.Component{
             this.state={post:
                 <article className={"col-lg-"+this.props.width+" article small-article-left"}>
                     <div className="row">
-                        <div className="col-lg-6 image "  style={{backgroundImage: 'url('+this.props.image+')'}}>
+                        <div className="col-lg-6 image "  style={{backgroundImage: 'url('+'/web/images/small-user-image/'+this.props.image+')'}}>
                             <div className="arrow"></div>
                         </div>
                         <div className="col-lg-6 header">
@@ -37,7 +37,7 @@ export default class Post extends React.Component{
             this.state={post:
                 <article className="col-lg-6 article big-article-right">
                     <div className="row">
-                        <div className="col-lg-12 image" style={{backgroundImage: 'url('+this.props.image+')'}}>
+                        <div className="col-lg-12 image" style={{backgroundImage: 'url('+'/web/images/small-user-image/'+this.props.image+')'}}>
                             <div className="arrow"></div>
                             <div className="row">
                                 <div className="col-lg-6 header">
