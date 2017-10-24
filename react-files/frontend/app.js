@@ -9,6 +9,7 @@ import {Provider} from 'react-redux';
 import './style.sass';
 import './index/index.sass';
 import './admin/admin.sass';
+import './post/comments.sass';
 
 ReactDOM.render(
         <Router history={history}>

@@ -79,7 +79,7 @@ export default class AdminPostList extends React.Component{
         }
     }
     render(){
-        return <div>
+        return <div className="col-lg-9">
             {this.state.page}
             {this.state.preloader}
         </div>;

@@ -6,6 +6,7 @@ use app\models\Image;
 use app\models\Images;
 use app\models\Texts;
 use Yii;
+use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -17,6 +18,7 @@ use yii\helpers\Html;
 use app\models\User;
 use app\models\MailerForm; //добавляемая строка
 use yii\web\UploadedFile;
+use app\models\PostAnswer;
 
 
 
@@ -98,9 +100,14 @@ class SiteController extends Controller
 
             $url=$_SERVER['REQUEST_URI'];
             $url=substr($url,5);
-            $total=Post::find()->where('url = :url',[':url' => $url])->asArray()->one();
-            if($total){
-                    return json_encode($total);
+
+            $post = Post::find()->where(['url'=>$url])->one();
+
+            if($post){
+                $texts = $post->texts;
+                $images = $post->images;
+                $postAnswer=new PostAnswer($post,$texts,$images);
+                return json_encode($postAnswer->getArrayOfElements());
             }
             Yii::$app->response->statusCode = 404;
             return null;
@@ -210,11 +217,13 @@ class SiteController extends Controller
                 $textElement=json_decode($_POST[$item]);
                 if($textElement->type=='h1'){
                     $post->header=$textElement->value;
-                    $post->url='url';
 
                     $post->author=Yii::$app->user->identity->name;
                     $post->save();
-                    $a=10;
+                }
+                else if($textElement->type=='span'){
+                    $post->url=$textElement->value;
+                    $post->save();
                 }
                 else{
                     $texts= new Texts();
@@ -225,8 +234,6 @@ class SiteController extends Controller
                     $index++;
                     $texts->save();
                 }
-
-//                $texts->value = $textElement[]
             }
             else if(isset($_FILES[$item])){
                 $images= new Images();
@@ -244,6 +251,7 @@ class SiteController extends Controller
                 return 'error';
             }
         }
+        $post->save();
         return 'ok';
     }
 }

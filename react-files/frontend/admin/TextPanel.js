@@ -20,36 +20,40 @@ class TextPanel extends React.Component{
         switch (this.props.type){
             case 'h1':
                 required=true;
-                element=<h1>{this.state.text}</h1>;
+                element=<h1 className='col-lg-10'>{this.state.text}</h1>;
                 break;
             case 'h2':
-                element=<h2>{this.state.text}</h2>;
+                element=<h2 className='col-lg-10'>{this.state.text}</h2>;
                 break;
             case 'h3':
-                element=<h3>{this.state.text}</h3>;
+                element=<h3 className='col-lg-10'>{this.state.text}</h3>;
                 break;
             case 'p':
-                element=<p>{this.state.text}</p>;
+                element=<p className='col-lg-10'>{this.state.text}</p>;
                 break;
             case 'url':
                 required=true;
-                element=<span className='url'>{this.state.text}</span>;
+                element=<span className='url col-lg-10'>{this.state.text}</span>;
                 break;
         }
         let key=+(new Date);
         if(required){
             this.addElementToStore(
-                <div key={key} data-key={key} className='col-lg-12'>
+                <div key={key} data-key={key} className={'row '+this.props.type+'-rowz'}>
                     {element}
-                    <button key={2} data-key={key} className='btn' onClick={this.editElement.bind(this)}>Редактировать</button>
+                    <div className='col-lg-2'>
+                        <button key={2} data-key={key} className='btn glyphicon glyphicon-edit' onClick={this.editElement.bind(this)}></button>
+                    </div>
                 </div>,required);
         }
         else{
             this.addElementToStore(
-                <div key={key} data-key={key} className='col-lg-12'>
+                <div key={key} data-key={key} className='row'>
                     {element}
-                    <button key={2} data-key={key} className='btn' onClick={this.editElement.bind(this)}>Редактировать</button>
-                    <button key={3} data-key={key} className='btn' onClick={this.remoteElement.bind(this)}>Удалить</button>
+                    <div className='col-lg-2'>
+                        <button key={2} data-key={key} className='btn glyphicon glyphicon-edit' onClick={this.editElement.bind(this)}></button>
+                        <button key={3} data-key={key} className='btn glyphicon glyphicon-remove-sign' onClick={this.remoteElement.bind(this)}></button>
+                    </div>
                 </div>,false);
         }
     }

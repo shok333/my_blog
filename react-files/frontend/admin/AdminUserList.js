@@ -100,7 +100,7 @@ export default class AdminUserList extends React.Component{
         this.loadUserList();
     }
     render(){
-        return <div>
+        return <div className="col-lg-9">
             {this.state.page}
             {this.state.preloader}
         </div>;

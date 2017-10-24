@@ -25,15 +25,13 @@ export default class AdminPanel extends React.Component{
                                     <AdminMenu/>
                                 </div>
                             </div>
-                            <div className="col-lg-9">
-                                <div className="row">
-                                    <Switch>
-                                        <Route exact path='/admin/create-post' component={AdminCreatePost}/>
-                                        <Route exact path='/admin/post-list' component={AdminPostList}/>
-                                        <Route exact path='/admin/user-list' component={AdminUserList}/>
-                                    </Switch>
-                                </div>
-                            </div>
+                            <Switch>
+                                <Route exact path='/admin/create-post' component={AdminCreatePost}/>
+                                <Route exact path='/admin/post-list' component={AdminPostList}/>
+                                <Route exact path='/admin/user-list' component={AdminUserList}/>
+                            </Switch>
+
+
                         </div>
                     </div>});
             }

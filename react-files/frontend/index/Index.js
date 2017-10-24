@@ -70,7 +70,7 @@ export default class Index extends React.Component{
                 else{
                     totalArray[totalArrayIndex]=(
                         <div className="row" key={this.state.keyIndex+totalArrayIndex}>
-                            <div className="double-article col-lg-6">
+                            <div className="double-article col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                 <Link to={postArray[i-1].url}>
                                     <Post key={i-1} number={i-1} width={12} header={postArray[i-1].header} a={postArray[i-1].a} image={postArray[i-1].image}/>
                                 </Link>
@@ -84,7 +84,7 @@ export default class Index extends React.Component{
             if(i%5==4){
                 totalArray[totalArrayIndex]=(
                     <div className="row" key={this.state.keyIndex+totalArrayIndex}>
-                        <div className="double-article col-lg-6">
+                        <div className="double-article col-xs-6 col-sm-6 col-md-6 col-lg-6">
                             <ReactCSSTransitionGroup transitionName="post-item-3" transitionAppear={true} transitionAppearTimeout={5000} transitionEnterTimeout={5000} transitionLeaveTimeout={5000}>
                                 <Link to={postArray[i-2].url}>
                                     <Post key={i-2} number={i-2} width={12} header={postArray[i-2].header} a={postArray[i-2].a} image={postArray[i-2].image}/>
@@ -132,10 +132,8 @@ export default class Index extends React.Component{
         return (
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-8">
-                            <div className="row">
-                                {this.state.totalArray}
-                            </div>
+                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-8 index">
+                            {this.state.totalArray}
                         </div>
                     </div>
                 </div>

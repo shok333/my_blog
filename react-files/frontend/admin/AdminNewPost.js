@@ -29,6 +29,7 @@ class AdminNewPost extends React.Component{
         let formData=new FormData();
         let url=false;
         let h1=false;
+        let image=false;
         document.querySelector('#drag').childNodes.forEach((item)=>{
             let key=item.dataset.key;
             if(key){
@@ -38,10 +39,12 @@ class AdminNewPost extends React.Component{
                         if(key==item.key){
                             formData.append(item.key,item.image);
                             formData.append('s'+item.key,item.smallImage);
+                            image=true;
                         }
                     });
                 }
                 else{
+                    console.dir(elementsForDB);
                     elementsForDB.forEach(function(item){
                         if(item.key==key){
                             if(item.type.toUpperCase()=='span'.toUpperCase()){
@@ -64,17 +67,22 @@ class AdminNewPost extends React.Component{
         var token = $('meta[name=csrf-token]').attr("content");
         if(h1){
             if(url){
-                formData.append(param, token);
-                this.ajax=$.ajax({url:'/web/admin/create-new-post', type: 'post', data: formData, processData: false, contentType: false,success:((data)=>{
-                    alert('ok');
-                })});
+                if(image){
+                    formData.append(param, token);
+                    this.ajax=$.ajax({url:'/web/admin/create-new-post', type: 'post', data: formData, processData: false, contentType: false,success:((data)=>{
+                        alert('ok');
+                    })});
+                }
+                else{
+                    alert('Добавьте изображение ');
+                }
             }
             else{
-                alert('заполните Url');
+                alert('Добавьте url страницы');
             }
         }
         else{
-            alert('заполните H1');
+            alert('Добавьте заголовок H1');
         }
     }
     componentWillUnmount(){
@@ -85,7 +93,7 @@ class AdminNewPost extends React.Component{
     render(){
         return (
            <div>
-               <div id='drag'>
+               <div id='drag' className='admin'>
                    {this.state.elements}
                </div>
                {this.state.submitButton}

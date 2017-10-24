@@ -38,31 +38,40 @@ class ImageSizeElement extends React.Component{
                 var canvas=image;
                 var smallCanvas=image;
             }
+
             let key=+(new Date);
 
             smallCanvas.toBlob((blob)=>{
                 blob.name='s'+key+'.'+blob.type.substr(6);
                 this.smallImage=blob;
-            });
+                console.dir(this.smallImage);
 
-            canvas.toBlob((blob)=>{
-                let fr = new FileReader();
-                fr.addEventListener("load", (event)=> {
-                    this.props.dispatch({type: 'ADD_IMAGE', key: key, image: blob, smallImage: this.smallImage, imageForRendering: <img id='image' src={event.target.result}/>});
-                    this.props.dispatch({type: 'ADD_ELEMENT', element:
-                        <div key={key} data-key={key}>
-                            <img id='image' src={event.target.result}/>
-                            <button key={2} data-key={key} className='btn' >Редактировать</button>
-                            <button key={3} data-key={key} className='btn' onClick={this.deleteImage}>Удалить</button>
-                        </div>
+                canvas.toBlob((blob)=>{
+                    let fr = new FileReader();
+                    fr.addEventListener("load", (event)=> {
+                        console.dir(this.smallImage);
+                        this.props.dispatch({type: 'ADD_IMAGE', key: key, image: blob, smallImage: this.smallImage, imageForRendering: <img id='image' src={event.target.result}/>});
+                        this.props.dispatch({type: 'ADD_ELEMENT', element:
+                            <div key={key} data-key={key} className='row image-row'>
+                                <img src={event.target.result} className='col-lg-10'/>
+                                <div className='col-lg-2'>
+                                    <button key={2} data-key={key} className='btn glyphicon glyphicon-edit' ></button>
+                                    <button key={3} data-key={key} className='btn glyphicon glyphicon-remove-sign' onClick={this.deleteImage.bind(this)}></button>
+                                </div>
+                            </div>
+                        });
+                        this.props.dispatch({type: 'REMOVE_ELEMENT_FOR_EDIT'});
+                        document.body.style.overflow='';
                     });
-                    this.props.dispatch({type: 'REMOVE_ELEMENT_FOR_EDIT'});
-                    document.body.style.overflow='';
+                    fr.readAsDataURL(blob);
+                    blob.name=key+'.'+blob.type.substr(6);
+
                 });
-                fr.readAsDataURL(blob);
-                blob.name=key+'.'+blob.type.substr(6);
 
             });
+
+            //console.dir(smallCanvas);
+
 
 
 

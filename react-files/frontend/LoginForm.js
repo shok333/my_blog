@@ -19,7 +19,7 @@ export default class LoginForm extends React.Component{
         return(
             <div className="container">
                 <div className="row">
-                    <div className="col-lg-8">
+                    <div className="col-lg-12">
                         <div className="row">
                             <div>{this.state.message}</div>
                         </div>

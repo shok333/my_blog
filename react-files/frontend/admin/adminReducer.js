@@ -45,8 +45,9 @@ export default function adminReducer(state={elementsFromRendering:[],elementsFro
         let type;
         let newElementsFromRendering=state.elementsFromRendering.map((item)=>{
             if(action.key==item.key){
+                console.dir(item.props.children[0])
                 type=item.props.children[0].type;
-                return (<div key={action.key}>{[React.createElement(item.props.children[0].type,{key: 1},action.value),item.props.children[1],item.props.children[2]]}</div>);
+                return (<div key={action.key} data-key={action.key} className='row'>{[React.createElement(item.props.children[0].type,{key: 1, className: item.props.children[0].props.className},action.value),item.props.children[1],item.props.children[2]]}</div>);
             }
             return item;
         });
