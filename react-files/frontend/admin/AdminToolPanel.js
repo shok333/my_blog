@@ -59,6 +59,7 @@ class AdminToolPanel extends React.Component{
 }
 
 function mapStateToProps(state){
+    console.dir(state);
     return {
         adminState: state.adminState
     }

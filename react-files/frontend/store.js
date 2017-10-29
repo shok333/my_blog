@@ -10,4 +10,13 @@ let reducers = combineReducers({
     generalState: generalReducer
 });
 
+//var middleWare = function middleWare(store){
+//    return function(next){
+//        return function(action){
+//            console.dir('2');
+//            return next(action);
+//        }
+//    }
+//}
+
 export default createStore(reducers);

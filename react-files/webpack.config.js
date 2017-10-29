@@ -1,5 +1,9 @@
 'use strict'
 
+const NODE_ENV = process.env.NODE_ENV || 'dev'
+// Для разработки запуск NODE_ENV='dev' webpack
+
+
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var extractPlugin = new ExtractTextPlugin({
@@ -21,7 +25,7 @@ module .exports={
     devServer: {
         inline: false
     },
-    watch: true,  //Только при разработке!!!!!!!
+    watch: NODE_ENV =='dev',
     module: {
         rules: [
             {
@@ -57,8 +61,7 @@ module .exports={
     resolve:{
         extensions: ['*', '.js', '.es6'] // расширения для загрузки модулей
     },
-    devtool: 'eval-source-map',//Только при разработке!!!!!!!
-
+    devtool: NODE_ENV =='dev' ? 'eval-source-map' : null,
 
 
 

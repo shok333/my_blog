@@ -44,7 +44,6 @@ class AdminNewPost extends React.Component{
                     });
                 }
                 else{
-                    console.dir(elementsForDB);
                     elementsForDB.forEach(function(item){
                         if(item.key==key){
                             if(item.type.toUpperCase()=='span'.toUpperCase()){
