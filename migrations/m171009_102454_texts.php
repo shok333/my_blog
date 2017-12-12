@@ -17,9 +17,7 @@ class m171009_102454_texts extends Migration
 
     public function safeDown()
     {
-        echo "m171009_102454_texts cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('texts');
     }
 
     /*

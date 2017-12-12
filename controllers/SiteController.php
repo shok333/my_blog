@@ -6,18 +6,11 @@ use app\models\Image;
 use app\models\Images;
 use app\models\Texts;
 use Yii;
-use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 use app\models\Post;
-use yii\helpers\Html;
 use app\models\User;
 use app\models\MailerForm; //добавляемая строка
-use yii\web\UploadedFile;
 use app\models\PostAnswer;
 
 
@@ -89,6 +82,8 @@ class SiteController extends Controller
         else{
             $index=0;
         }
+		header("Content-type: application/json; charset=utf-8");
+		header('Access-Control-Allow-Origin: *'); 
         return json_encode(Post::find()->where('id > '.$index)->asArray()->orderBy('id')->limit(5)->all());
     }
 
@@ -198,7 +193,6 @@ class SiteController extends Controller
             return 'guest';
         }
         else{
-            $ggg=Yii::$app->user->identity->status;
             if(Yii::$app->user->identity->status==='admin'){
                 return 'admin';
             }
@@ -236,12 +230,17 @@ class SiteController extends Controller
                 }
             }
             else if(isset($_FILES[$item])){
+                $test = Yii::$app->request;
                 $images= new Images();
                 $images->post_id=$post->id;
                 $images->number=$index;
                 $index++;
-                $image=new Image();
-                $imageName=$image->saveImage($item,'s'.$item);
+
+                $image=new Image($item);
+
+
+                $imageName = $image->saveImage();
+
                 $images->name=$imageName;
                 $post->image=$imageName;
                 $images->save();

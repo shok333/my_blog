@@ -15,13 +15,18 @@ class m170917_102003_user extends Migration
             'confirm' =>$this->boolean(),
             'image' =>$this->string()
         ]);
+        $this->insert('user',[
+            'email' => 'user@user.ru',
+            'name' => 'user',
+            'password' => 'user',
+            'status' => 'user',
+        ]);
     }
 
     public function safeDown()
     {
-        echo "m170917_102003_user cannot be reverted.\n";
-
-        return false;
+        $this->delete('user',['id' => 1]);
+        $this->dropTable('user');
     }
 
     /*

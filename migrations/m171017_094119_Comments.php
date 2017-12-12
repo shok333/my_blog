@@ -12,7 +12,6 @@ class m171017_094119_Comments extends Migration
             'author' => $this->string(),
             'parent' => $this->integer(),
             'date' => $this->string(),
-
             'post_id' => $this->integer(),
             'number' => $this->integer(),
             'type' => $this->string(),
@@ -22,9 +21,7 @@ class m171017_094119_Comments extends Migration
 
     public function safeDown()
     {
-        echo "m171017_094119_Comments cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('comments');
     }
 
     /*

@@ -16,9 +16,7 @@ class m171009_102427_images extends Migration
 
     public function safeDown()
     {
-        echo "m171009_102427_images cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('images');
     }
 
     /*

@@ -10,50 +10,57 @@ class m170817_090426_post extends Migration
         $this->createTable('post',[
             'id' => $this->primaryKey(),
             'header' => $this->string(),
-            'date' => $this->date(),
             'image' => $this->string(),
             'url' => $this->string(),
             'author' => $this->string()
         ]);
         $this->insert('post',[
-            'header' => 'О Николае Чеулзе',
-            'image' => '/web/images/sherlock2.jpg',
-            'url' => 'cms'
+            'header' => 'header 1',
+            'image' => 'sherlock2.jpg',
+            'url' => 'url',
+            'author' => 'admin'
         ]);
         $this->insert('post',[
-            'header' => 'О Николае Чеулзе',
-            'image' => '/web/images/sherlock2.jpg',
-            'url' => 'cms2'
+            'header' => 'header 2',
+            'image' => 'sherlock2.jpg',
+            'url' => 'url2',
+            'author' => 'admin'
         ]);
         $this->insert('post',[
-            'header' => 'О Николае Чеулзе',
-            'image' => '/web/images/sherlock2.jpg',
-            'url' => 'cms3'
+            'header' => 'header 3',
+            'image' => 'sherlock2.jpg',
+            'url' => 'url3',
+            'author' => 'admin'
         ]);
         $this->insert('post',[
-            'header' => 'О Николае Чеулзе',
-            'image' => '/web/images/sherlock2.jpg',
-            'url' => 'cms4'
+            'header' => 'header 4',
+            'image' => 'sherlock2.jpg',
+            'url' => 'url4',
+            'author' => 'admin'
         ]);
         $this->insert('post',[
-            'header' => 'О Николае Чеулзе',
-            'image' => '/web/images/sherlock2.jpg',
-            'url' => 'cms5'
+            'header' => 'header 5',
+            'image' => 'sherlock2.jpg',
+            'url' => 'url5',
+            'author' => 'admin'
         ]);
         $this->insert('post',[
-            'header' => 'О Николае Чеулзе',
-            'image' => '/web/images/sherlock2.jpg',
-            'url' => 'cms25'
+            'header' => 'header 6',
+            'image' => 'sherlock2.jpg',
+            'url' => 'url25',
+            'author' => 'admin'
         ]);
         $this->insert('post',[
-            'header' => 'О Николае Чеулзе',
-            'image' => '/web/images/sherlock2.jpg',
-            'url' => 'cms35'
+            'header' => 'header 7',
+            'image' => 'sherlock2.jpg',
+            'url' => 'url35',
+            'author' => 'admin'
         ]);
         $this->insert('post',[
-            'header' => 'О Николае Чеулзе',
-            'image' => '/web/images/sherlock2.jpg',
-            'url' => 'cms45'
+            'header' => 'header 8',
+            'image' => 'sherlock2.jpg',
+            'url' => 'url45',
+            'author' => 'admin'
         ]);
 
     }
@@ -61,6 +68,13 @@ class m170817_090426_post extends Migration
     public function safeDown()
     {
         $this->delete('post',['id' => 1]);
+        $this->delete('post',['id' => 2]);
+        $this->delete('post',['id' => 3]);
+        $this->delete('post',['id' => 4]);
+        $this->delete('post',['id' => 5]);
+        $this->delete('post',['id' => 6]);
+        $this->delete('post',['id' => 7]);
+        $this->delete('post',['id' => 8]);
         $this->dropTable('post');
     }
 
